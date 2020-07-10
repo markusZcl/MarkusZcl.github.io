@@ -183,129 +183,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="ES7原理及环境搭建"><a href="#ES7原理及环境搭建" class="headerlink" title="ES7原理及环境搭建"></a>ES7原理及环境搭建</h1><h2 id="环境搭建："><a href="#环境搭建：" class="headerlink" title="环境搭建："></a>环境搭建：</h2><ol>
-<li>官网下载，下载对应的操作系统的版本,版本是7.3.0<br><a href="https://www.elastic.co/cn/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/elasticsearch</a></li>
-<li>linux或mac下进入对应解压后的目录使用bin/elasticsearch启动，window下双击bin/elasticsearch.bat的脚本启动</li>
-<li>浏览器访问localhost:9200端口查看返回判断启动是否正常</li>
-<li>bin/elasticsearch -d 后台启动</li>
-<li>安装kibana，下载对应6.8.1.1版本的kibana,对应配置里有链接elasticsearch的url，确认后，直接bin/kibana启动</li>
-<li>默认访问5601端口，另外可以通过localhost:5601/status 查看对应kibana状态</li>
-<li>选择dev tool节点后可以产生和es的交互式界面行为</li>
-</ol>
-<h2 id="名词定义"><a href="#名词定义" class="headerlink" title="名词定义"></a>名词定义</h2><p><img src="https://gitee.com/markuszcl99/images/raw/master/20200710115242.png" alt=""></p>
-<p>ES7之后Type被完全废弃，即只有index(索引，等同于数据库+表定义)和Document（文档，即行记录）</p>
-<p><strong>索引有两层含义：</strong></p>
-<ol>
-<li>搜索中的数据库或表的定义</li>
-<li>构建文档时候的索引创建</li>
-</ol>
-<p><strong>分词：</strong></p>
-<ol>
-<li>搜索是以词为单位做最基本的搜索单元</li>
-<li>依靠分词器构建分词</li>
-<li>用分词构建倒排索引</li>
-</ol>
-<p><strong>何为倒排索引</strong></p>
-<p><img src="https://gitee.com/markuszcl99/images/raw/master/20200710115401.png" alt=""></p>
-<p>正向索引为document行对应词序列的索引，可以理解为主键<img src="https://gitee.com/markuszcl99/images/raw/master/20200710115334.png" alt=""></p>
-<p>倒排索引为通过词找到document id的过程索引</p>
-<p><strong>TF-IDF定义</strong></p>
-<ol>
-<li>TF: 词频 这个document文档包含了多少个这个词，包含越多表明越相关</li>
-<li>DF:文档频率 包含该词的文档总数目</li>
-<li>IDF: DF取反 1/DF</li>
-</ol>
-<p>示例：<img src="https://gitee.com/markuszcl99/images/raw/master/20200710115435.png" alt=""></p>
-<p><strong>分布式索引原理</strong></p>
-<ol>
-<li>number_of_shards:定义索引主分片数量，用于响应写操作（也可响应读）</li>
-<li>number_of_replicas:定义索引备份分片数量，用于响应读操作</li>
-<li>分布式索引依据分片配置均匀的响应用户请求</li>
-<li>通过paxos方式从具备竞争主节点能力的机器中竞选主节点后，所有写请求都要通过主节点</li>
-<li>读请求可不经过主节点，直接发生在从节点上，若对应节点无分片则路由到对应有分片的节点中。</li>
-</ol>
-<p><strong>示例：</strong><br><strong>单节点集群</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115602018.png" alt="image-20200710115602018"></p>
-<p><strong>添加一个节点进集群</strong><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115621935.png" alt="image-20200710115621935"></p>
-<p><strong>再添加一个节点进集群</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115645475.png" alt="image-20200710115645475"></p>
-<p><strong>调整副本数量到2</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115704077.png" alt="image-20200710115704077"></p>
-<p><strong>关闭一个节点后</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115718120.png" alt="image-20200710115718120"></p>
-<p><strong>新建索引</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115738245.png" alt="image-20200710115738245"></p>
-<p><strong>取回文档</strong></p>
-<p><img src="C:%5CUsers%5C14222%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200710115752695.png" alt="image-20200710115752695"></p>
-<h1 id="ES基础语法"><a href="#ES基础语法" class="headerlink" title="ES基础语法"></a>ES基础语法</h1><h2 id="创建一个索引"><a href="#创建一个索引" class="headerlink" title="创建一个索引"></a>创建一个索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;test</span><br><span class="line">&#123;</span><br><span class="line">   &quot;settings&quot; : &#123;</span><br><span class="line">      &quot;number_of_shards&quot; : 1,</span><br><span class="line">      &quot;number_of_replicas&quot; : 1</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>分布式节点建设<br>更新其replicas状态，但是不能更新shards状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;test&#x2F;_settings</span><br><span class="line">&#123;</span><br><span class="line">   &quot;settings&quot; : &#123;</span><br><span class="line">      &quot;number_of_replicas&quot; : 0</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建索引，指定id建立索引"><a href="#创建索引，指定id建立索引" class="headerlink" title="创建索引，指定id建立索引"></a>创建索引，指定id建立索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;employee&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;凯杰&quot;, </span><br><span class="line">    &quot;age&quot;: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="指定id全量修改索引"><a href="#指定id全量修改索引" class="headerlink" title="指定id全量修改索引"></a>指定id全量修改索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;employee&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;凯dsfsf32杰&quot;, </span><br><span class="line">    &quot;age&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="指定id部分字断修改"><a href="#指定id部分字断修改" class="headerlink" title="指定id部分字断修改"></a>指定id部分字断修改</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST employee&#x2F;_update&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">    &quot;doc&quot; : &#123;</span><br><span class="line">        &quot;name&quot; : &quot;new_name&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="指定-create防止重复创建"><a href="#指定-create防止重复创建" class="headerlink" title="指定_create防止重复创建"></a>指定_create防止重复创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;employee&#x2F;_create&#x2F;1&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;凯1213132杰&quot;, </span><br><span class="line">    &quot;age&quot;: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用搜索全部"><a href="#使用搜索全部" class="headerlink" title="使用搜索全部"></a>使用搜索全部</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br></pre></td></tr></table></figure>
-
-<h2 id="获取指定id"><a href="#获取指定id" class="headerlink" title="获取指定id"></a>获取指定id</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_doc&#x2F;1</span><br></pre></td></tr></table></figure>
-
-<h2 id="不指定id建立索引"><a href="#不指定id建立索引" class="headerlink" title="不指定id建立索引"></a>不指定id建立索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;employee&#x2F;_doc&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;dsfsfsf&quot;, </span><br><span class="line">    &quot;age&quot;: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete &#x2F;employee&#x2F;_doc&#x2F;1</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE &#x2F;employee</span><br></pre></td></tr></table></figure>
-
-<h2 id="结构化创建"><a href="#结构化创建" class="headerlink" title="结构化创建"></a>结构化创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;employee&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot; : &#123;</span><br><span class="line">      &quot;number_of_shards&quot; : 1,</span><br><span class="line">      &quot;number_of_replicas&quot; : 1</span><br><span class="line">   &#125;,</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">            &quot;properties&quot; : &#123;</span><br><span class="line">                &quot;name&quot; : &#123; &quot;type&quot; : &quot;text&quot; &#125;,</span><br><span class="line">                &quot;age&quot; : &#123; &quot;type&quot; : &quot;integer&quot; &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="es查询"><a href="#es查询" class="headerlink" title="es查询"></a>es查询</h1><h2 id="简单查询："><a href="#简单查询：" class="headerlink" title="简单查询："></a>简单查询：</h2><p>主键查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_doc&#x2F;1</span><br></pre></td></tr></table></figure>
-
-<p>查询所有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line"> &quot;query&quot;:&#123;</span><br><span class="line">   &quot;match_all&quot;: &#123;&#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>分页查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;from&quot;:1,</span><br><span class="line">  &quot;size&quot;:1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="复杂查询"><a href="#复杂查询" class="headerlink" title="复杂查询"></a>复杂查询</h2><p>带条件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;match&quot;: &#123;&quot;name&quot;:&quot;ES&quot;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>带排序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;match&quot;: &#123;&quot;name&quot;:&quot;ES&quot;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;:[</span><br><span class="line">  	&#123;&quot;age&quot;:&#123;&quot;order&quot;:&quot;desc&quot;&#125;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>带聚合</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;match&quot;: &#123;&quot;name&quot;:&quot;ES&quot;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;:[</span><br><span class="line">  	&#123;&quot;age&quot;:&#123;&quot;order&quot;:&quot;desc&quot;&#125;&#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;aggs&quot;:&#123;</span><br><span class="line">  	&quot;group_by_age&quot;:&#123;</span><br><span class="line">  		&quot;terms&quot;:&#123;</span><br><span class="line">  			&quot;field&quot;:&quot;age&quot;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ES基础查询"><a href="#ES基础查询" class="headerlink" title="ES基础查询"></a>ES基础查询</h1><p><strong>1.充分理解倒排索引及token的概念</strong><br><strong>2.analyze分析过程：字符过滤，字符处理（分词），分词过滤</strong><br>例如：Eating an apple a day &amp; keeps the doctor away<br>字符过滤 &amp;过滤掉<br>字符处理 用标准分词器，以空格和标点符号分割<br>分词过滤 变小写<br>最后建立索引 eating an apple a day keeps the doctor away<br><strong>3.存储并索引：</strong><br>只有被analyze后生成的索引存储下来后才能被搜索到，单纯的存储不analyze的数据不能被搜索，但可以读取出来展示给用户</p>
-<p><img src="https://gitee.com/markuszcl99/images/raw/master/20200710115949.png" alt=""></p>
-<p><strong>利用analyze api搜索</strong><br><strong>先建立索引</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;employee&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;Eating an apple a day &amp; keeps the doctor away&quot;, </span><br><span class="line">    &quot;age&quot;: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>然后搜索</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;match&quot;: &#123;&quot;name&quot;:&quot;eat&quot;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>没搜到后使用analyze api查看分析处理结果，可以看到没有分出eat，所以搜不到，改成用english分词器做</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;field&quot;:&quot;name&quot;,</span><br><span class="line">  &quot;text&quot;:&quot;Eating an apple a day &amp; keeps the doctor away&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>重新创建索引</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;employee</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot; : &#123;</span><br><span class="line">      &quot;number_of_shards&quot; : 1,</span><br><span class="line">      &quot;number_of_replicas&quot; : 1</span><br><span class="line">   &#125;,</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">            &quot;properties&quot; : &#123;</span><br><span class="line">                &quot;name&quot; : &#123; &quot;type&quot; : &quot;text&quot;,&quot;analyzer&quot;: &quot;english&quot;&#125;,</span><br><span class="line">                &quot;age&quot; : &#123;&quot;type&quot;:&quot;integer&quot;&#125;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在用analyze api，可以看到eat</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;employee&#x2F;_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;field&quot;:&quot;name&quot;,</span><br><span class="line">  &quot;text&quot;:&quot;Eating an apple a day &amp; keeps the doctor away&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>英文分析器的步骤</strong><br>1.字符过滤 &amp;过滤掉<br>2.字符处理 以空格和标点符号分割<br>3.分词过滤 变小写，去掉停用词（the），同义词，词干转化器</p>
-<h2 id="field类型"><a href="#field类型" class="headerlink" title="field类型"></a>field类型</h2><p><strong>text</strong>:被分析索引的字符串类型<br><strong>keyword</strong>:不能被分析只能被精确匹配的字符串类型<br><strong>date</strong>:日期时间类型 可以配合format一起使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;type&quot;:&quot;date&quot;,&quot;format&quot;:&quot;yyyy-MM-dd&quot;&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>数字类型</strong>：long,integer,short，double等<br><strong>boolean类型</strong>：true，false<br><strong>array类型</strong>：[“one”,“two”]等<br><strong>object类型</strong>：json嵌套{“property1”:“value1”,“property2”:“value2”}<br><strong>ip</strong>:ip类型<br><strong>geo_point</strong>:地理位置类型<br>地址定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;_doc&quot;: &#123;</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;location&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;geo_point&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>建立索引的方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;location&quot;: &#123; </span><br><span class="line">    &quot;lat&quot;: 41.12,</span><br><span class="line">    &quot;lon&quot;: -71.34</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <blockquote>
+<p>这篇笔记记录了关于ES环境的搭建和基础语法的学习</p>
+</blockquote>
+        
       
 
       
@@ -1183,11 +1064,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
             
             <div class="clearfix"></div>
