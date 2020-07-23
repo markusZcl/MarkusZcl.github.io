@@ -6,28 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Linux--指令篇 | Markus</title>
+  <title>kmp | Markus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录管理首先要知道Linux的两点：  一切皆目录 根目录是从 &#x2F; 开始的">
+  <meta name="description" content="现在有这样一个场景：给定两个字符串A，B，我想要得到B字符串出现在A字符串起始的位置，如果没有就返回-1。举个例子：假如A字符串为aabaam，B字符串baa，显而易见，起始索引2。假如B字符串为baax,那么就不匹配了，就返回-1。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux--指令篇">
-<meta property="og:url" content="http://yoursite.com/2020/07/07/Linux%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:title" content="kmp">
+<meta property="og:url" content="http://yoursite.com/2020/07/23/kmp/index.html">
 <meta property="og:site_name" content="Markus">
-<meta property="og:description" content="目录管理首先要知道Linux的两点：  一切皆目录 根目录是从 &#x2F; 开始的">
+<meta property="og:description" content="现在有这样一个场景：给定两个字符串A，B，我想要得到B字符串出现在A字符串起始的位置，如果没有就返回-1。举个例子：假如A字符串为aabaam，B字符串baa，显而易见，起始索引2。假如B字符串为baax,那么就不匹配了，就返回-1。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519175920507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519180419398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519181735145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519182217334.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519183350567.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519183630597.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200519184136870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
-<meta property="article:published_time" content="2020-07-07T14:41:13.561Z">
-<meta property="article:modified_time" content="2020-07-07T14:46:20.892Z">
+<meta property="article:published_time" content="2020-07-23T14:48:54.798Z">
+<meta property="article:modified_time" content="2020-07-23T14:53:56.249Z">
 <meta property="article:author" content="MarkusZhang">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200519175920507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="/atom.xml" title="Markus" type="application/atom+xml">
   
@@ -172,14 +164,14 @@
           </div>
           <div id="js-content" class="content-ll">
             
-<article id="post-Linux指令" class="article article-type-post " itemscope itemprop="blogPost">
+<article id="post-kmp" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Linux--指令篇
+      kmp
     </h1>
   
 
@@ -195,8 +187,8 @@
         
         <!--显示阅读次数完毕-->
         
-        <a href="/2020/07/07/Linux%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-07-07T14:41:13.561Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
+        <a href="/2020/07/23/kmp/" class="archive-article-date">
+  	<time datetime="2020-07-23T14:48:54.798Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-23</time>
 </a>
         
       </header>
@@ -204,53 +196,25 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<h1 id="目录管理"><a href="#目录管理" class="headerlink" title="目录管理"></a>目录管理</h1><p>首先要知道Linux的两点：</p>
-<ol>
-<li>一切皆目录</li>
-<li>根目录是从 / 开始的</li>
-</ol>
+<p>现在有这样一个场景：给定两个字符串A，B，我想要得到B字符串出现在A字符串起始的位置，如果没有就返回-1。举个例子：假如A字符串为aabaam，B字符串baa，显而易见，起始索引2。假如B字符串为baax,那么就不匹配了，就返回-1。</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="什么是绝对路径和相对路径？"><a href="#什么是绝对路径和相对路径？" class="headerlink" title="什么是绝对路径和相对路径？"></a>什么是绝对路径和相对路径？</h2><p>绝对路径：路径的写法：有根目录 / 写起，例如 /home/markuszhang这个目录<br>相对路径：路径的写法：不是从 / 写起，例如我当前在 /home/markuszhang/doc目录下，我想到/home/markus/man这个目录，我们可以写成 cd ../man</p>
-<h2 id="处理目录常用的指令？"><a href="#处理目录常用的指令？" class="headerlink" title="处理目录常用的指令？"></a>处理目录常用的指令？</h2><p>接下来我们看看有哪些关于目录管理的指令：</p>
+<a id="more"></a> 
+<h1 id="KMP匹配"><a href="#KMP匹配" class="headerlink" title="KMP匹配"></a>KMP匹配</h1><p>KMP算法就是解决这样的场景的，我们来看下算法思路：</p>
 <ul>
-<li>ls：列出目录</li>
-<li>cd：切换目录</li>
-<li>pwd：查看当前所在目录的位置</li>
-<li>mkdir：创建一个新得目录</li>
-<li>rmdir：删除一个空的目录</li>
-<li>cp：复制目录</li>
-<li>rm：移除文件或者目录</li>
-<li>mv：涌动文件与目录，或者修改文件与目录的名称<br>我们可以使用 man [命令] 来查看各个命令的使用文档<h3 id="列出目录：ls"><a href="#列出目录：ls" class="headerlink" title="列出目录：ls"></a>列出目录：ls</h3>ls有两个参数：</li>
-<li>-a：查看全部的文件，包含隐藏文件</li>
-<li>-l：查看所有的文件，包含文件的属性和权限，但是不包括隐藏文件<br><img src="https://img-blog.csdnimg.cn/20200519175920507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h3 id="切换目录：cd"><a href="#切换目录：cd" class="headerlink" title="切换目录：cd"></a>切换目录：cd</h3>cd 是 change directory的缩写，用于变换工作目录的指令<br>语法：cd [相对路径或者绝对路径]<br><img src="https://img-blog.csdnimg.cn/20200519180419398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h3 id="创建新目录：mkdir"><a href="#创建新目录：mkdir" class="headerlink" title="创建新目录：mkdir"></a>创建新目录：mkdir</h3>如果想要创建一个新目录，mkdir可以完成这个任务<br>语法：mkdir [-mp] 目录名称<br>两个参数：</li>
-<li>-m：配置文件的权限！直接配置，不需要看默认权限的脸色</li>
-<li>-p：递归创建目录<br><img src="https://img-blog.csdnimg.cn/20200519181735145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h3 id="删除目录：rmdir"><a href="#删除目录：rmdir" class="headerlink" title="删除目录：rmdir"></a>删除目录：rmdir</h3></li>
+<li>同时遍历两个字符串，我们给A字符串遍历到的索引用x表示，给B字符串遍历到的索引用y表示。</li>
+<li>在开始遍历之前，我们应该先了解一下next数组，大家先听个耳熟，接下来我会细讲。next数组就是表示字符串B每个字符位置对应的以它前一个字符为字符串结尾的前缀字符串和后缀字符串最大匹配长度。举个例子，假如有一个这样的字符串：aabaam，对应的索引位置就是0,1,2,3,4,5，那么next[0]=-1,next[1]=0,next[2]=1,next[3]=0,next[4]=1,next[5]=2。前面所提到的前缀字符串和后缀字符串我用这个例子来解释：就拿next[2]来说，当索引为2是，它对应的字符是b，那么b的前一个字符就是a，后缀字符串表示，以这个字符a为结尾，向前查n位，比如向前查1位，他表示的字符串就是a，前缀字符串表示，以起始字符为开始，向后查n位（包括自己），比如向前查1位，也就是a，由此前缀字符串和后缀字符串相等，再比如各自都向后查2位，结果就是自己了，那么这个不算，至此它的最大匹配长度也就是1。以上就是解释它是什么，接下来会告诉怎么用。</li>
+<li>开始遍历：(有这么几种情况)<ul>
+<li>当x所对应的字符与y所对应的字符相等时，就x++，y++</li>
+<li>当x所对应的字符与y所对应的字符不相等时，又分为两种情况<ul>
+<li>当next[y] == -1，数组所对应的值为-1表示着B字符串是刚开始的位置，如果等于-1的时候，x和y对应的字符不相等，那就换一个呗，x++。</li>
+<li>其他情况，这时候就凸显到next数组的威力了，我们就把y索引跳到next[y]的位置上。为什么跳到这个位置呢？来解释下，因为我跳到这个位置上后，前面的字符就不用比较了，它一定是相等的，因为前缀字符串和后缀字符串相等的长度，大家思考一下。哈哈</li>
 </ul>
-<p><strong>不能删除不为空的目录</strong><br>也有一个参数 ： -p：递归删除<br><img src="https://img-blog.csdnimg.cn/20200519182217334.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="复制文件或者目录：cp"><a href="#复制文件或者目录：cp" class="headerlink" title="复制文件或者目录：cp"></a>复制文件或者目录：cp</h3><p>语法：cp 原来的地方 新的地方<br>参数：</p>
-<ul>
-<li>-a：相当于-pdr的意思</li>
-<li>-p：连同文件的属性一起复制过去，而非使用默认属性</li>
-<li>-d：若来源档为连接档的属性，则复制连接档属性而非文件本身</li>
-<li>-r：递归持续复制，用于目录的复制行为</li>
-<li>-f：强制的意思，若目标文件已经存在且无法开启，则移除后再尝试一次</li>
-<li>-i：若目标档已经存在时，在覆盖时会先询问动作的进行</li>
-<li>-l：进行硬式连接的连接档创建，而非复制文件本身</li>
-<li>-s：复制成为符号连接档，也就是 捷径 文件</li>
-<li>-u：若destination比source旧才升级<br>上面参数这么多，其实我真正用过也就是 -i，其他等用到的时候进行查阅，现在先了解一下<br><img src="https://img-blog.csdnimg.cn/20200519183350567.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h3 id="移除文件或目录：rm"><a href="#移除文件或目录：rm" class="headerlink" title="移除文件或目录：rm"></a>移除文件或目录：rm</h3>介绍三个参数：</li>
-<li>-f：忽略不存在的文件（强制删除）</li>
-<li>-r：递归删除目录</li>
-<li>-i：互动，删除前会询问使用者是否动作<br><img src="https://img-blog.csdnimg.cn/20200519183630597.png" alt="在这里插入图片描述"></li>
+</li>
 </ul>
-<p>*<em>尽量不要在服务器上使用 rm -rf /  *</em><br>出现问题，楼主不负责的哟！！！</p>
-<h3 id="移动文件或目录-mv-还可以重命名文件"><a href="#移动文件或目录-mv-还可以重命名文件" class="headerlink" title="移动文件或目录 mv 还可以重命名文件"></a>移动文件或目录 mv 还可以重命名文件</h3><p>介绍三个参数：</p>
-<ul>
-<li>-f：强制移动</li>
-<li>-u：只替换已经更新过的文件</li>
-<li>-i：若目标文件已经存在时，就会询问是否覆盖<br><img src="https://img-blog.csdnimg.cn/20200519184136870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hcmt1c1poYW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1>总之吧，一定要勤加练习，不然就算再聪明的人过段时间也会遗忘的，有些指令我们用到的时候可以直接去查阅，但是一些常用的一定要记住，天道酬勤，这段话写给自己，也写给你们~~</li>
+</li>
 </ul>
-
+<p>接下来开始关门放代码哈哈：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Author:markusZhang</span><br><span class="line"> * Date:Create in 2020/7/21 22:37</span><br><span class="line"> * todo: KMP算法</span><br><span class="line"> */</span><br><span class="line">public class A &#123;</span><br><span class="line">    public static int kmpIndex(String str1,String str2)&#123;</span><br><span class="line">        if (str1.length()&lt;str2.length() || str1.isEmpty() || str2.isEmpty())&#123;</span><br><span class="line">            return -1;</span><br><span class="line">        &#125;</span><br><span class="line">        char []ch1 = str1.toCharArray();</span><br><span class="line">        char []ch2 = str2.toCharArray();</span><br><span class="line">        int x = 0;</span><br><span class="line">        int y = 0;</span><br><span class="line">        int []next = getNextArray(ch2);</span><br><span class="line">        while(x&lt;ch1.length &amp;&amp; y &lt; ch2.length)&#123;</span><br><span class="line">            if (ch1[x] == ch2[y])&#123;</span><br><span class="line">                x++;</span><br><span class="line">                y++;</span><br><span class="line">            &#125;else if (next[y] == -1)&#123;</span><br><span class="line">                x++;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                y = next[y];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return y==ch2.length?x-y:-1;</span><br><span class="line">    &#125;</span><br><span class="line">    private static int[] getNextArray(char[] ch) &#123;</span><br><span class="line">        if (ch.length == 1)&#123;</span><br><span class="line">            return new int[]&#123;-1&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        int []next = new int[ch.length];</span><br><span class="line">        next[0] = -1;</span><br><span class="line">        next[1] = 0;</span><br><span class="line">        int curr = 2;</span><br><span class="line">        int cn = 0;</span><br><span class="line">        while(curr &lt; ch.length)&#123;</span><br><span class="line">            if (ch[curr-1] == ch[cn])&#123;</span><br><span class="line">                next[curr++] = ++cn;</span><br><span class="line">            &#125;else if (cn &gt; 0)&#123;</span><br><span class="line">                cn = next[cn];</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                next[curr++] = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return next;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String str1 = "aabaam";</span><br><span class="line">        String str2 = "aabaa";</span><br><span class="line">        System.out.println(kmpIndex(str1,str2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -294,7 +258,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -350,7 +314,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://markuszcl99.github.io/2020/07/07/Linux%E6%8C%87%E4%BB%A4/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://markuszcl99.github.io/2020/07/23/kmp/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -364,18 +328,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/07/07/feimanstudy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          费曼学习法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/07/hashmap/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">集合-HashMap</div>
+    <a href="/2020/07/16/hashFunc/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">与哈希有关的知识点</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -402,7 +357,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#目录管理"><span class="toc-number">1.</span> <span class="toc-text">目录管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是绝对路径和相对路径？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是绝对路径和相对路径？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理目录常用的指令？"><span class="toc-number">1.2.</span> <span class="toc-text">处理目录常用的指令？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列出目录：ls"><span class="toc-number">1.2.1.</span> <span class="toc-text">列出目录：ls</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切换目录：cd"><span class="toc-number">1.2.2.</span> <span class="toc-text">切换目录：cd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建新目录：mkdir"><span class="toc-number">1.2.3.</span> <span class="toc-text">创建新目录：mkdir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除目录：rmdir"><span class="toc-number">1.2.4.</span> <span class="toc-text">删除目录：rmdir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制文件或者目录：cp"><span class="toc-number">1.2.5.</span> <span class="toc-text">复制文件或者目录：cp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除文件或目录：rm"><span class="toc-number">1.2.6.</span> <span class="toc-text">移除文件或目录：rm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动文件或目录-mv-还可以重命名文件"><span class="toc-number">1.2.7.</span> <span class="toc-text">移动文件或目录 mv 还可以重命名文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#写在最后"><span class="toc-number">2.</span> <span class="toc-text">写在最后</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#KMP匹配"><span class="toc-number">1.</span> <span class="toc-text">KMP匹配</span></a></li></ol>
                     </div>
                 </span>
             </div>
