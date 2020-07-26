@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: linux | Markus</title>
+  <title>Morris遍历 | Markus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Markus">
-<meta property="og:url" content="http://yoursite.com/tags/linux/index.html">
+  <meta name="description" content="今天就来聊聊关于Morris遍历吧。Morris是一个人，他研究出的一种关于二叉树的遍历形式，我们来梳理下它的思路吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Morris遍历">
+<meta property="og:url" content="http://yoursite.com/2020/07/26/Morris/index.html">
 <meta property="og:site_name" content="Markus">
+<meta property="og:description" content="今天就来聊聊关于Morris遍历吧。Morris是一个人，他研究出的一种关于二叉树的遍历形式，我们来梳理下它的思路吧。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/markuszcl99/images/raw/master/20200726190305.png">
+<meta property="article:published_time" content="2020-07-26T12:31:04.914Z">
+<meta property="article:modified_time" content="2020-07-26T12:32:29.260Z">
 <meta property="article:author" content="MarkusZhang">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/markuszcl99/images/raw/master/20200726190305.png">
   
     <link rel="alternative" href="/atom.xml" title="Markus" type="application/atom+xml">
   
@@ -159,59 +166,219 @@
           </div>
           <div id="js-content" class="content-ll">
             
-  
-  
+<article id="post-Morris" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/07/Linux%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-07-07T14:41:13.561Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/07/Linux%E6%8C%87%E4%BB%A4/">Linux--指令篇</a>
+    <h1 class="article-title" itemprop="name">
+      Morris遍历
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        <!--显示阅读次数-->
+        
+          <br/>
+          <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+          <span class="icon-sort"></span>
+          <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+                    阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+          </span>
+          </a>
+        
+        <!--显示阅读次数完毕-->
+        
+        <a href="/2020/07/26/Morris/" class="archive-article-date">
+  	<time datetime="2020-07-26T12:31:04.914Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>今天就来聊聊关于Morris遍历吧。Morris是一个人，他研究出的一种关于二叉树的遍历形式，我们来梳理下它的思路吧。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="Morris遍历"><a href="#Morris遍历" class="headerlink" title="Morris遍历"></a>Morris遍历</h1><h2 id="什么是Morris遍历？"><a href="#什么是Morris遍历？" class="headerlink" title="什么是Morris遍历？"></a>什么是Morris遍历？</h2><p>它的思路是，从根节点出发开始遍历，在遍历的过程，每遍历到一个节点，都会先判断它是否含有左子树，如果没有左子树的话，遍历到当前节点的指针指向它的右子节点，如果左子树不为空，就找出左子树的最右子节点，判断该最右子节点的右指针是否指向当前节点，如果最右子节点的右指针指向空，那就将该右指针指向当前节点，当前节点指针指向当前节点的左子节点；如果右指针指向当前节点，那就让该右指针指向空，当前节点指针指向右子节点。一直这样进行下去，直到当前节点的指向空的时候结束遍历。</p>
+<p>上面是关于Morris遍历的整体思路，下面就来举个例子</p>
+<p><img src="https://gitee.com/markuszcl99/images/raw/master/20200726190305.png" alt=""></p>
+<h2 id="Morris遍历实现代码"><a href="#Morris遍历实现代码" class="headerlink" title="Morris遍历实现代码"></a>Morris遍历实现代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Author:markusZhang</span></span><br><span class="line"><span class="comment"> * Date:Create in 2020/7/23 22:58</span></span><br><span class="line"><span class="comment"> * todo: morris遍历</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> value;</span><br><span class="line">        <span class="keyword">public</span> Node left;</span><br><span class="line">        <span class="keyword">public</span> Node right;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">morris</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        Node curr = node;</span><br><span class="line">        Node mostRight = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;</span><br><span class="line">            System.out.print(curr.value+<span class="string">" "</span>);</span><br><span class="line">            mostRight = curr.left;</span><br><span class="line">            <span class="keyword">if</span> (mostRight != <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(mostRight.right != <span class="keyword">null</span> &amp;&amp; mostRight.right != curr)&#123;</span><br><span class="line">                    mostRight = mostRight.right;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//跳出循环，有两种情况</span></span><br><span class="line">                <span class="keyword">if</span> (mostRight.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    mostRight.right = curr;</span><br><span class="line">                    curr = curr.left;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    mostRight.right = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            curr = curr.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Node A = <span class="keyword">new</span> Node(<span class="number">1</span>);</span><br><span class="line">        A.left = <span class="keyword">new</span> Node(<span class="number">2</span>);</span><br><span class="line">        A.right = <span class="keyword">new</span> Node(<span class="number">3</span>);</span><br><span class="line">        A.left.left = <span class="keyword">new</span> Node(<span class="number">4</span>);</span><br><span class="line">        A.left.right = <span class="keyword">new</span> Node(<span class="number">5</span>);</span><br><span class="line">        A.right.left = <span class="keyword">new</span> Node(<span class="number">6</span>);</span><br><span class="line">        A.right.right = <span class="keyword">new</span> Node(<span class="number">7</span>);</span><br><span class="line">        morris(A);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Morris遍历能干嘛-？"><a href="#Morris遍历能干嘛-？" class="headerlink" title="Morris遍历能干嘛 ？"></a>Morris遍历能干嘛 ？</h2><p>它是每个能用二叉树遍历解决问题的算法的最优解，它的时间复杂度为O(n)，空间复杂度是O(1)</p>
+<p>我们先用它来实现二叉树的三种遍历</p>
+<h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3><p>用到上面的例子，上面的二叉树的Morris遍历节点的顺序是：1 2 4 2 5 1 3 6 3 7，我们仔细看下这个遍历的顺序，发现如果当前节点有左子树的时候我们会遍历该节点两次，如果没有左子树就会遍历一次，所以当实现前序遍历的时候，我们可以判断当前节点是否是含有左子树，如果有左子树的话我们去打印它第一次遍历时候的节点，如果没有左子树我们直接打印该节点。</p>
+<p>我们来看下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">morrisPre</span><span class="params">(Node head)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    Node cur = head;</span><br><span class="line">    Node mostRight = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="comment">//System.out.print(cur.value+" ");</span></span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">            mostRight = cur.left;</span><br><span class="line">            <span class="keyword">while</span>(mostRight.right != <span class="keyword">null</span> &amp;&amp; mostRight.right != cur)&#123;</span><br><span class="line">                mostRight = mostRight.right;<span class="comment">//找到最右子节点</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mostRight.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">                System.out.print(cur.value+<span class="string">" "</span>);</span><br><span class="line">                mostRight.right = cur;</span><br><span class="line">                cur = cur.left;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                mostRight.right = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.print(cur.value+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.right;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>还是前面的例子，遍历顺序是这样的：1 2 4 2 5 1 3 6 3 7 ，我们现在要求是中序遍历，其实跟前序遍历的思路是一样，不过这里需要转换一下要求，当我们遍历到一个节点的时候，判断当前节点如果有左子树，就在第二次遍历到当前节点的时候打印，如果没有左子树，就直接打印该节点，我们来看下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">morrisIn</span><span class="params">(Node head)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    Node cur = head;</span><br><span class="line">    Node mostRight = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        mostRight = cur.left;</span><br><span class="line">        <span class="keyword">if</span> (mostRight != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span> (mostRight.right != <span class="keyword">null</span> &amp;&amp; mostRight.right != cur)&#123;</span><br><span class="line">                mostRight = mostRight.right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mostRight.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">                mostRight.right = cur;</span><br><span class="line">                cur = cur.left;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                System.out.print(cur.value+<span class="string">" "</span>);</span><br><span class="line">                mostRight.right = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.print(cur.value+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.right;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后续遍历"><a href="#后续遍历" class="headerlink" title="后续遍历"></a>后续遍历</h3><p>这个实现会有点难度，我们要知道打印节点的处理时机，这个处理时机针对有两次遍历的节点，那些只被遍历一次的节点是没有处理时机的。就比如上面举的例子： 1 2 4 2 5 1 3 6 3 7这个顺序，有三次处理时机，当第二次遍历到2的时候，逆序打印出2的左子树的右边界，右边界就是==左子树的所有右节点组成的==；第二次遍历到1的时候逆序打印左子树的右边界，第二次遍历到3的时候逆序打印左子树的右边界。所以遍历阶段就会打印出 4 5 2 6，遍历结束后逆序印整个树的右边界。这样后续遍历就完成了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">morrisPost</span><span class="params">(Node head)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Node cur = head;</span><br><span class="line">    Node mostRight = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        mostRight = cur.left;</span><br><span class="line">        <span class="keyword">if</span> (mostRight != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(mostRight.right != <span class="keyword">null</span> &amp;&amp; mostRight.right!=cur)&#123;</span><br><span class="line">                mostRight = mostRight.right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mostRight.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">                mostRight.right = cur;</span><br><span class="line">                cur = cur.left;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                mostRight.right = <span class="keyword">null</span>;</span><br><span class="line">                printEdge(cur.left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.right;</span><br><span class="line">    &#125;</span><br><span class="line">    printEdge(head);</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printEdge</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    Node top = reverse(node);</span><br><span class="line">    Node tail = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(top != <span class="keyword">null</span>)&#123;</span><br><span class="line">        tail = top;</span><br><span class="line">        System.out.print(top.value+<span class="string">" "</span>);</span><br><span class="line">        top = top.right;</span><br><span class="line">    &#125;</span><br><span class="line">    reverse(tail);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Node <span class="title">reverse</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    Node cur = node;</span><br><span class="line">    Node pre = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Node next = cur.right;</span><br><span class="line">        cur.right = pre;</span><br><span class="line">        pre = cur;</span><br><span class="line">        cur = next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://markuszcl99.github.io/2020/07/26/Morris/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/07/23/kmp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">kmp</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Morris遍历"><span class="toc-number">1.</span> <span class="toc-text">Morris遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Morris遍历？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是Morris遍历？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Morris遍历实现代码"><span class="toc-number">1.2.</span> <span class="toc-text">Morris遍历实现代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Morris遍历能干嘛-？"><span class="toc-number">1.3.</span> <span class="toc-text">Morris遍历能干嘛 ？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前序遍历"><span class="toc-number">1.3.1.</span> <span class="toc-text">前序遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中序遍历"><span class="toc-number">1.3.2.</span> <span class="toc-text">中序遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后续遍历"><span class="toc-number">1.3.3.</span> <span class="toc-text">后续遍历</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -243,9 +410,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
